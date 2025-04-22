@@ -1,0 +1,165 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using STS.Domain.Core.Contracts.AppService
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.UpdateProfileModel
+@inject IBaseDataAppService BaseDataAppService;
+@{
+    Layout = "../Shared/_Layout";
+    ViewData["Title"] = "پروفایل کاربر";
+    var cities = await BaseDataAppService.GetAllCities(default);
+}
+<!-- Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery and Select2 JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<!--============= Dashboard Section Starts Here =============-->
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+            <partial name="_ProfileSideBar" />
+
+            <div class="col-lg-8">
+                <form method="post" enctype="multipart/form-data">
+                    <input type="file" name="profilePic" id="pic" name="profile" class="d-none">
+                    <input type="hidden" asp-for="UserModel.Id"></input>
+                    <div class="row">
+
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">مشخصات شخصی</h4>
+                                </div>
+                                <ul class="dash-pro-body">
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">نام</div>
+                                        <input class="info-value p-1" asp-for="@Model.UserModel.FirstName" />
+                                    </li>
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">نام خانوادگی</div>
+                                        <input class="info-value p-1" asp-for="@Model.UserModel.LastName" />
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">تنظیمات حساب</h4>
+
+                                </div>
+                                <ul class="dash-pro-body">
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">شماره کارت</div>
+                                        <input class="info-value p-1" asp-for="@Model.UserModel.CardNumber" />
+                                    </li>
+
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">موجودی</div>
+                                        <input class="info-value p-1" asp-for="@Model.UserModel.Balance" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        @if(User.IsInRole("Expert"))
+                        {
+                            <div class="col-12">
+                                <div class="dash-pro-item mb-30 dashboard-widget">
+                                    <div class="header">
+                                        <h4 class="title">مهارت ها</h4>
+
+                                    </div>
+                                    <ul class="dash-pro-body">
+                                        <li>
+                                            <select style="height:100px;" class="js-example-basic-multiple" asp-for="@Model.ExpertSkills" multiple="multiple">
+                                                @foreach (var skill in Model.AllSkills)
+                                                {
+                                                    <option value="@skill.Id" selected="@(Model.ExpertSkills.Contains(skill.Id) ? "selected" : null)">
+                                                        @skill.Name
+                                                    </option>
+                                                }
+                                            </select>
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+          
+                        }
+    
+                        <div class="col-12">
+                            <div class="dash-pro-item mb-30 dashboard-widget">
+                                <div class="header">
+                                    <h4 class="title">اطلاعات تماس</h4>
+                                </div>
+                                <ul class="dash-pro-body">
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">موبایل</div>
+                                        <input class="info-value p-1" asp-for="@Model.UserModel.PhoneNumber" />
+                                    </li>
+
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">نشانی</div>
+                                        <input style="padding-top:10px;" class="info-value p-1" asp-for="@Model.UserModel.Address" />
+                                    </li>
+                                    <li>
+                                        <div style="padding-top:10px;" class="info-name">شهر</div>
+                                        <select style="padding-top:10px;" class="info-value p-1" asp-for="UserModel.CityId" asp-items="@(new SelectList(cities.Data, "Id", "Name"))">
+                                            <option value="">انتخاب شهر</option>
+                                        </select>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="padding: 20px;" class="col-12">
+                            <div>
+                                <ul>
+                                    <ul class="button-area nav nav-tabs">
+                                        <li>
+                                            <button id="updatebtn" type="submit" class="custom-button">ویرایش</button>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts{
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+}
+
+<!--============= Dashboard Section Ends Here =============-->
+<script>
+    document.getElementById('updatebtn').addEventListener('click', function() {
+        var fileInput1 = document.getElementById('profile-pic');
+        var fileInput2 = document.getElementById('pic');
+
+        if (fileInput1.files.length > 0) {
+            fileInput2.files = fileInput1.files;
+        }
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2({
+        });
+    });
+
+</script>
+ 

@@ -1,0 +1,102 @@
+﻿@page
+@using STS.Endpoints.RazorPages.Extensions
+@model STS.Endpoints.RazorPages.Pages.SubCategoriesModel
+@{
+    var mainCategoryName = @Model.MainCategoryName == null ? "" : @Model.MainCategoryName;
+}
+
+<!--============= Upcoming Auction Section Starts Here =============-->
+<section style="padding-top:100px;" class="upcoming-auction padding-bottom">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="title">@mainCategoryName</h2>
+            @if (!string.IsNullOrEmpty(mainCategoryName))
+            {
+                <p>برای ثبت درخواست یکی از سرویس های زیر را انتخاب کنید</p>
+            }
+        </div>
+    </div>
+    
+    @if (Model.SubCategories.Any())
+    {
+
+        <div class="filter-wrapper">
+            <div class="container">
+                <ul class="filter">
+                    <li class="active" data-check="*">
+                        <span>همه</span>
+                    </li>
+                    @foreach (var subCategory in @Model.SubCategories)
+                    {
+                        <li data-check=".@subCategory.Id">
+                            <span>@subCategory.Name</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="m--15">
+                <div class="auction-wrapper-5">
+
+                    @foreach (var item in @Model.TaskItems)
+                    {
+                        @foreach (var task in item.Value)
+                        {
+                            <div class="auction-item-5 @item.Key">
+                                <div class="auction-inner">
+                                    <div class="upcoming-badge" title="Upcoming Auction">
+                                        <i class="flaticon-auction"></i>
+                                    </div>
+                                    <div class="auction-thumb">
+                                        <a href="#0"><img src="@task.ImgPath" alt="upcoming"></a>
+                                    </div>
+                                    <div class="auction-content">
+                                        <div class="title-area">
+                                            <h6 class="title">
+                                                <a href="#0">@task.Name</a>
+                                            </h6>
+                                        </div>
+                                        <p>
+                                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.لورم ایپسوم متن …
+                                        </p>
+                                    </div>
+                                    <div class="auction-bidding">
+                                        <div class="bid-incr">
+                                            <span class="title">قیمت پایه</span>
+                                            <h4>@task.BasePrice.ToString("N0") تومان</h4>
+                                        </div>
+                                        @if (User.IsInRole("Client"))
+                                        {
+                                            <a asp-page="SubmitOrder" asp-route-id="@task.Id" type="button" class="custom-button">ثبت سفارش</a>
+                                        }
+                                        else if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <a asp-area="Account" asp-page="Login" type="button" class="btn btn-secondary">وارید شوید</a>
+                                        }
+                                        else if (User.IsInRole("Expert"))
+                                        {
+                                            <p style="color:red">برای ثبت سفارش باید به عنوان مشتری وارد شوید</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="section-header">
+                    <h2 class="title">هیچ سرویسی وجود ندارد</h2>
+            </div>
+        </div>
+    }
+
+</section>
+<!--============= Upcoming Auction Section Ends Here =============-->

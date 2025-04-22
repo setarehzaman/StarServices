@@ -1,0 +1,69 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.Suggestions.IndexModel
+@{
+    ViewData["Title"] = "استارسرویس > مدیریت پیشنهادات > لیست پیشنهادات";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    پیشنهادات
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="data-table-Suggestions">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>قیمت پیشنهادی</th>
+                                <th>متخصص</th>
+                                <th>تاریخ پیشنهادی</th>
+                                <th>فعال یا غیرفعال</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var suggestion in Model.Suggestions)
+                            {
+                                <tr>
+                                    <td>@suggestion.Id</td>
+                                    <td>@suggestion.SuggestedPrice</td>
+                                    <td>@suggestion.ExpertName</td>
+                                    <td>@suggestion.DoAt.ToPersianString("yyyy/MM/dd")</td>
+                                    <td>@suggestion.IsAccepted.ToPersianStatus()</td>
+                                    <td>
+                                        @if (suggestion.IsAccepted)
+                                        {
+                                            <a asp-page-handler="Reject" asp-route-Id="@suggestion.Id" asp-route-OrderId="@suggestion.OrderId" class="btn btn-danger">غیرفعال</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page-handler="Accept" asp-route-Id="@suggestion.Id" asp-route-OrderId="@suggestion.OrderId" class="btn btn-success">فعال</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-actions">
+                    <a asp-page="/Orders/Index" class="btn btn-warning">
+                        بازگشت
+                    </a>
+                </div>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->
+@section Scripts
+{
+    <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/AdminTemplate/js/pages/datatable.js"></script>
+}

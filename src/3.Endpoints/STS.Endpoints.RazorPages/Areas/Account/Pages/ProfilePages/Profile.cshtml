@@ -1,0 +1,122 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.ProfileModel
+@{
+    Layout = "../Shared/_Layout";
+    ViewData["Title"] = "پروفایل کاربر";
+}
+
+<!--============= Dashboard Section Starts Here =============-->
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+            
+            <partial name="_ProfileSideBar" />
+
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="dash-pro-item mb-30 dashboard-widget">
+                            <div class="header">
+                                <h4 class="title">مشخصات شخصی</h4>
+                            </div>
+                            <ul class="dash-pro-body">
+                                <li>
+                                    <div class="info-name">نام</div>
+                                    @if (Model.UserModel.FirstName is null)
+                                    {
+                                        <div class="info-value">ثبت نشده</div>
+                                    }
+                                    <div class="info-value">@Model.UserModel.FirstName</div>
+                                </li>
+                                <li>
+                                    <div class="info-name">نام خانوادگی</div>
+                                    @if (Model.UserModel.LastName is null)
+                                    {
+                                        <div class="info-value">ثبت نشده</div>
+                                    }
+                                    <div class="info-value">@Model.UserModel.LastName</div>
+                                </li>
+                                <li>
+                                    <div class="info-name">نشانی</div>
+                                    @if(Model.UserModel.Address is null)
+                                    {
+                                        <div class="info-value">ثبت نشده</div>
+                                    }
+                                    <div class="info-value">@Model.UserModel.Address</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="dash-pro-item mb-30 dashboard-widget">
+                            <div class="header">
+                                <h4 class="title">تنظیمات حساب</h4>
+                 
+                            </div>
+                            <ul class="dash-pro-body">
+                                <li>
+                                    <div class="info-name">زبان</div>
+                                    <div class="info-value">فارسی</div>
+                                </li>
+                                <li>
+                                    <div class="info-name">شهر</div>
+                                    <div class="info-value">@Model.UserModel.City</div>
+                                </li>
+                                <li>
+                                    <div class="info-name">شماره کارت</div>
+                                    @if (Model.UserModel.CardNumber is null)
+                                    {
+                                        <div class="info-value">ثبت نشده</div>
+                                    }
+                                    <div class="info-value">@Model.UserModel.CardNumber</div>
+                                </li>
+                                <li>
+                                    <div class="info-name">موجودی</div>
+                                    <div class="info-value">@Model.UserModel.Balance</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="dash-pro-item mb-30 dashboard-widget">
+                            <div class="header">
+                                <h4 class="title">آدرس ایمیل</h4>
+                            </div>
+                            <ul class="dash-pro-body">
+                                <li>
+                                    <div class="info-name">ایمیل</div>
+                                    <div class="info-value">@Model.UserModel.Email</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="dash-pro-item mb-30 dashboard-widget">
+                            <div class="header">
+                                <h4 class="title">تلفن</h4>
+                            </div>
+                            <ul class="dash-pro-body">
+                                <li>
+                                    <div class="info-name">موبایل </div>
+                                    @if (Model.UserModel.PhoneNumber is null)
+                                    {
+                                        <div class="info-value">ثبت نشده</div>
+                                    }
+                                    <div class="info-value">@Model.UserModel.PhoneNumber</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= Dashboard Section Ends Here =============-->
+
+<script>
+        $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+</script>

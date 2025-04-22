@@ -1,0 +1,103 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Pages.ExpertIndexModel
+@{
+}
+<!--============= Car Auction Section Starts Here =============-->
+<section class="car-auction-section padding-bottom padding-top pos-rel oh">
+    <div class="container">
+
+        @if(Model.Orders.Count ==0)
+        {
+            <p class="text-center">برای مشاهده سفارش های مربوط به مهارت های خود، ابتدا مهارت های خود را در بخش ویرایش پروفایل اپدیت کنید.</p>
+            <a asp-area="Account" asp-page="ProfilePages/UpdateProfile" class="custom-button" style="display:flex; justify-content: center; align-items:center;">ویرایش پرفایل</a>
+            
+        }
+        else
+        {
+            @foreach (var order in Model.Orders)
+            {
+                <hr style="margin-top:50px; margin-bottom:50px;" />
+                <div class="section-header-3">
+                    <div class="left">
+                        <div class="thumb">
+                            <img src="@order.Value.First().MainCategoryImgAddress" alt="header-icons">
+                        </div>
+                        <div class="title-area">
+                            <h2 class="title">@order.Value.First().TaskName</h2>
+                            <p>سفارش های ثبت شده برای مهارت @order.Value.First().TaskName</p>
+                        </div>
+                    </div>
+                    <a asp-page="ViewAllOrdersPerSkill" asp-route-id="@order.Value.First().TaskId" class="normal-button">مشاهده همه</a>
+                </div>
+
+                <div class="row justify-content-center mb-30-none">
+                    @foreach (var orderValue in order.Value)
+                    {
+                        <div class="col-sm-10 col-md-6 col-lg-4 @(orderValue.AlreadyHasSuggestion ? "disabled" : "")">
+                            <div class="auction-item-2">
+                                <div class="auction-thumb">
+                                    @if (orderValue.ImagesPath!.Any())
+                                    {
+                                        <a href="#"><img src="@orderValue.ImagesPath!.First()" alt="car"></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#"><img src="./usertemplate/images/default service.png" alt="car"></a>
+                                    }
+                                </div>
+                                <div class="auction-content">
+                                    <p class="title">
+                                        @orderValue.Description
+                                    </p>
+                                    <div class="bid-area">
+                                        <div class="bid-amount">
+                                            <div class="icon">
+                                                <i class="flaticon-auction"></i>
+                                            </div>
+                                            <div class="amount-content">
+                                                <div class="current">قیمت پیشنهادی</div>
+                                                <div class="amount">@orderValue.OrderedPrice تومان</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="countdown-area">
+                                        <div class="countdown p-1">
+                                            <p>زمان اجرا - @orderValue.DoAt.ToPersianString("yyyy/MM/dd")</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        @if (orderValue.AlreadyHasSuggestion)
+                                        {
+                                            <a style="color:white" disabled class="btn btn-secondary">قبلا پیشنهاد ثبت شده است</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page="submitSuggestion" asp-route-id="@orderValue.Id" class="custom-button">پیشنهاد دهید</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+        }   
+    </div>
+
+</section>
+
+<style>
+    .disabled {
+        color: #999; /* متن کم‌رنگ‌تر */
+        opacity: 0.6; /* کمی شفاف‌تر */
+        filter: grayscale(80%); /* تغییر به حالت سیاه‌و‌سفید */
+        pointer-events: none; /* جلوگیری از تعامل */
+        user-select: none; /* جلوگیری از انتخاب متن */
+        cursor: not-allowed; /* نشانگر موس غیرفعال */
+    }
+</style>
+<!--============= Car Auction Section Ends Here =============-->

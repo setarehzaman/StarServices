@@ -1,0 +1,233 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.UserSuggestionsModel
+@{
+}
+
+<!--============= Dashboard Section Starts Here =============-->
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+
+            <partial name="_ProfileSideBar"/>
+
+            <div class="col-lg-8 p-2">
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="upcoming">
+                        <div class="row mb-30-none justify-content-center">
+                            @foreach(var suggestion in Model.suggestions)
+                            {
+                                <div class="col-sm-10 col-md-6">
+                                    <div class="auction-item-2">
+                                           <div class="auction-content">
+                                            <h6 class="title">
+                                                <a asp-page="/SubmitSuggestion" asp-route-id="@suggestion.OrderId" asp-route-fromExpertProfile="True">@suggestion.TaskName</a>
+                                            </h6>
+                                            <div class="bid-area">
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="flaticon-auction"></i>
+                                                    </div>
+                                                    <div class="amount-content">
+                                                        <div class="current">قیمت پیشنهادی</div>
+                                                        <div class="amount">@suggestion.SuggestedPrice.ToString("N0") تومان</div>
+                                                    </div>
+                                                </div>
+                                                <div class="bid-amount">
+                                                    <div class="icon">
+                                                        <i class="flaticon-money"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <label style="font-size:15px"  href="#0" class="btn btn-info mt-2">@suggestion.OrderStatus.GetEnumDisplayName()</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+        </div>
+    </div>
+    <div class="tab-pane fade" id="past">
+        <div class="row justify-content-center mb-30-none">
+            <div class="col-sm-10 col-md-6">
+                <div class="auction-item-2">
+                    <div class="auction-thumb">
+                        <a href="product-details.html"><img src="~/UserTemplate/images/auction/jewelry/auction-1.jpg" alt="jewelry"></a>
+                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                    </div>
+                    <div class="auction-content">
+                        <h6 class="title">
+                            <a href="product-details.html">انگشتر طلا با سنگ های پاک</a>
+                        </h6>
+                        <div class="bid-area">
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-auction"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">پیشنهاد فعلی</div>
+                                    <div class="amount">800.000 تومان</div>
+                                </div>
+                            </div>
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-money"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">خریدکنید</div>
+                                    <div class="amount">500.000 تومان</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="countdown-area">
+                            <div class="countdown">
+                                <div id="bid_counter23"></div>
+                            </div>
+                            <span class="total-bids">30 پیشنهاد</span>
+                        </div>
+                        <div class="text-center">
+                            <a href="#0" class="custom-button">پیشنهاد دهید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-md-6">
+                <div class="auction-item-2">
+                    <div class="auction-thumb">
+                        <a href="product-details.html"><img src="~/UserTemplate/images/auction/jewelry/auction-2.jpg" alt="jewelry"></a>
+                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                    </div>
+                    <div class="auction-content">
+                        <h6 class="title">
+                            <a href="product-details.html">انگشتر طلا با سنگ های پاک</a>
+                        </h6>
+                        <div class="bid-area">
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-auction"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">پیشنهاد فعلی</div>
+                                    <div class="amount">800.000 تومان</div>
+                                </div>
+                            </div>
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-money"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">خریدکنید</div>
+                                    <div class="amount">500.000 تومان</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="countdown-area">
+                            <div class="countdown">
+                                <div id="bid_counter24"></div>
+                            </div>
+                            <span class="total-bids">30 پیشنهاد</span>
+                        </div>
+                        <div class="text-center">
+                            <a href="#0" class="custom-button">پیشنهاد دهید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-md-6">
+                <div class="auction-item-2">
+                    <div class="auction-thumb">
+                        <a href="product-details.html"><img src="~/UserTemplate/images/auction/jewelry/auction-3.jpg" alt="jewelry"></a>
+                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                    </div>
+                    <div class="auction-content">
+                        <h6 class="title">
+                            <a href="product-details.html">انگشتر طلا با سنگ های پاک</a>
+                        </h6>
+                        <div class="bid-area">
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-auction"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">پیشنهاد فعلی</div>
+                                    <div class="amount">800.000 تومان</div>
+                                </div>
+                            </div>
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-money"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">خریدکنید</div>
+                                    <div class="amount">500.000 تومان</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="countdown-area">
+                            <div class="countdown">
+                                <div id="bid_counter25"></div>
+                            </div>
+                            <span class="total-bids">30 پیشنهاد</span>
+                        </div>
+                        <div class="text-center">
+                            <a href="#0" class="custom-button">پیشنهاد دهید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-md-6">
+                <div class="auction-item-2">
+                    <div class="auction-thumb">
+                        <a href="product-details.html"><img src="~/UserTemplate/images/auction/product/04.png" alt="jewelry"></a>
+                        <a href="#0" class="rating"><i class="far fa-star"></i></a>
+                        <a href="#0" class="bid"><i class="flaticon-auction"></i></a>
+                    </div>
+                    <div class="auction-content">
+                        <h6 class="title">
+                            <a href="product-details.html">انگشتر طلا با سنگ های پاک</a>
+                        </h6>
+                        <div class="bid-area">
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-auction"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">پیشنهاد فعلی</div>
+                                    <div class="amount">800.000 تومان</div>
+                                </div>
+                            </div>
+                            <div class="bid-amount">
+                                <div class="icon">
+                                    <i class="flaticon-money"></i>
+                                </div>
+                                <div class="amount-content">
+                                    <div class="current">خریدکنید</div>
+                                    <div class="amount">500.000 تومان</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="countdown-area">
+                            <div class="countdown">
+                                <div id="bid_counter30"></div>
+                            </div>
+                            <span class="total-bids">30 پیشنهاد</span>
+                        </div>
+                        <div class="text-center">
+                            <a href="#0" class="custom-button">پیشنهاد دهید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</section>
+<!--============= Dashboard Section Ends Here =============-->

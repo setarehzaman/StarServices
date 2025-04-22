@@ -1,0 +1,81 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.Orders.OrderDetailsModel
+@{
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert @(TempData["IsSuccess"]?.ToString() == "True" ? "alert-success" : "alert-danger")">
+        @TempData["Message"]
+    </div>
+}
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    سفارش ها
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+                <!-- Add any top buttons here if needed -->
+            </div>
+            <div class="row">
+                <form enctype="multipart/form-data" role="form" method="post">
+                    <input type="hidden" asp-for="OrderModel.Id" />
+
+                    <div class="form-body">
+                        <!-- Remove the duplicate form-body div -->
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 5px;">قیمت پیشنهادی :</label>
+                            <div class="input-group">
+                                <input asp-for="OrderModel.OrderedPrice" class="form-control" type="text" placeholder="قیمت پیشنهادی" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 5px;">سرویس مربوطه :</label>
+                            <div class="input-group">
+                                <input asp-for="OrderModel.TaskName" class="form-control" type="text" placeholder="سرویس مربوطه" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 5px;">سفارش دهنده :</label>
+                            <div class="input-group">
+                                <input asp-for="OrderModel.ClientName" class="form-control" type="text" placeholder="سفارش دهنده" disabled />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label style="display: block; margin-bottom: 5px;">وضعیت :</label>
+                            <div class="input-group">
+                                <select asp-for="OrderModel.OrderStatus" class="form-select">
+                                    @foreach (var status in Model.OrderStatuses)
+                                    {
+                                        <option value="@status.Id">@status.DisplayName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="icon-check"></i>
+                            ذخیره
+                        </button>
+                        <a asp-page="Index" class="btn btn-warning">
+                            بازگشت
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->

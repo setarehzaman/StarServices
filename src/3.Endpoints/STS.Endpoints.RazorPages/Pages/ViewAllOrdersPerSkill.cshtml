@@ -1,0 +1,78 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Pages.ViewAllOrdersPerSkillModel
+@{
+}
+
+<!--============= Car Auction Section Starts Here =============-->
+<section class="car-auction-section padding-bottom padding-top pos-rel oh">
+	<div class="container">
+
+		<div class="row justify-content-center mb-30-none">
+			@foreach (var orderValue in Model.Orders)
+			{
+				<div class="col-sm-10 col-md-6 col-lg-4 @(orderValue.AlreadyHasSuggestion ? "disabled" : "")">
+					<div class="auction-item-2">
+						<div class="auction-thumb">
+							@if (orderValue.ImagesPath.Any())
+							{
+								<a href="product-details.html"><img src="@orderValue.ImagesPath.First()" alt="car"></a>
+							}
+							else
+							{
+								<a href="product-details.html"><img src="./usertemplate/images/default service.png" alt="car"></a>
+							}
+						</div>
+						<div class="auction-content">
+							<p class="title">
+								@orderValue.Description
+							</p>
+							<div class="bid-area">
+								<div class="bid-amount">
+									<div class="icon">
+										<i class="flaticon-auction"></i>
+									</div>
+									<div class="amount-content">
+										<div class="current">قیمت پیشنهادی</div>
+										<div class="amount">@orderValue.OrderedPrice تومان</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="countdown-area">
+								<div class="countdown p-1">
+									<p>زمان اجرا - @orderValue.DoAt.ToPersianString("yyyy/MM/dd")</p>
+								</div>
+							</div>
+							<div class="text-center">
+								@if (orderValue.AlreadyHasSuggestion)
+								{
+									<a style="color:white" disabled  class="btn btn-secondary">قبلا پیشنهاد ثبت شده است</a>
+								}
+								else
+								{
+									<a asp-page="submitSuggestion" asp-route-id="@orderValue.Id" class="custom-button">پیشنهاد دهید</a>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+
+		</div>
+
+	</div>
+
+</section>
+<!--============= Car Auction Section Ends Here =============-->
+
+<style>
+	.disabled {
+		color: #999; /* متن کم‌رنگ‌تر */
+		opacity: 0.6; /* کمی شفاف‌تر */
+		filter: grayscale(80%); /* تغییر به حالت سیاه‌و‌سفید */
+		pointer-events: none; /* جلوگیری از تعامل */
+		user-select: none; /* جلوگیری از انتخاب متن */
+		cursor: not-allowed; /* نشانگر موس غیرفعال */
+	}
+</style>

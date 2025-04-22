@@ -1,0 +1,75 @@
+﻿@using STS.Domain.Core.Contracts.AppService
+@using STS.Endpoints.RazorPages.Extensions
+@inject IApplicationUserAppService ApplicationUserAppService;
+
+@{
+    var profile = await ApplicationUserAppService
+        .GetImageProfilePath(int.Parse(User.GetUserId()), default);
+
+    var lastname = string.Empty;
+
+    if (!string.IsNullOrEmpty(profile.Data.LastName))
+    {
+        lastname = $" {profile.Data.LastName}";
+    }
+
+}
+<div class="col-sm-10 col-md-7 col-lg-4">
+    <div class="dashboard-widget mb-30 mb-lg-0 sticky-menu">
+        <div class="user">
+            <div class="thumb-area">
+                <div class="thumb">
+                    @if (string.IsNullOrEmpty(@profile.Data.ProfileImagePath))
+                    {
+                        <img src="/AdminTemplate/images/user/placeholder.jpg" alt="user">
+                    }
+                    else
+                    {
+                        <img src="@profile.Data.ProfileImagePath" alt="user">
+                    }
+                </div>
+                @if ((bool)TempData["Show-pencil"] == true)
+                {
+                    <label for="profile-pic" class="profile-pic-edit"><i class="flaticon-pencil"></i></label>
+                    <input type="file" id="profile-pic" name="profilePic" class="d-none">
+                }
+            </div>
+            <div class="content">
+                <h5 class="title">
+                    @if (!string.IsNullOrEmpty(profile.Data.FirstName))
+                    {
+                        @profile.Data.FirstName
+                    }
+                    @if (!string.IsNullOrEmpty(profile.Data.LastName))
+                    {
+                        @lastname;
+                    }
+                    </h5>
+                </div>
+            
+        </div>
+        <ul class="dashboard-menu">
+            <li>
+                <a asp-page="profile"><i class="flaticon-settings"></i>پروفایل</a>
+            </li>
+            <li>
+                <a asp-page="UpdateProfile"><i class="flaticon-settings"></i>ویرایش پروفایل</a>
+            </li>
+            @if (User.IsInRole("Client"))
+            {
+                <li>
+                    <a asp-page="UserOrders"><i class="flaticon-auction"></i>سفارش های من</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-page="UserSuggestions"><i class="flaticon-auction"></i>پیشنهادات من</a>
+                </li>
+                <li>
+                    <a asp-page="ExpertFeedBacks"><i class="flaticon-auction"></i>کامنت های من</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

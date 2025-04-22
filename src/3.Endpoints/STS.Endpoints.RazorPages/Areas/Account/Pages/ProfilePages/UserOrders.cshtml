@@ -1,0 +1,358 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.UserOrdersModel
+@{
+}
+<!--============= Dashboard Section Starts Here =============-->
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+
+            <partial name="_ProfileSideBar" />
+
+            <div class="col-lg-8">
+                <div class="dash-bid-item dashboard-widget mb-40-60">
+                    <div class="header">
+                        <h4 class="title">سفارشات من</h4>
+                    </div>
+                    <ul class="button-area nav nav-tabs">
+                        <li>
+                            <a href="#inprogress" data-toggle="tab" class="custom-button active">در دست انجام</a>
+                        </li>
+                        <li>
+                            <a href="#finished" data-toggle="tab" class="custom-button">به اتمام رسیده</a>
+                        </li>
+                    </ul>
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="inprogress">
+                        <div class="row mb-30-none justify-content-center">
+
+                            @if (@Model.InProgressorders is not null)
+                            {
+                                @foreach (var order in Model.InProgressorders)
+                                {
+                                    <div class="col-sm-10 col-md-12">
+                                        <div class="auction-item-2">
+                                            <div class="auction-content">
+                                                <h6 class="title">
+                                                    <a>@order.TaskName</a>
+                                                </h6>
+                                                <div class="bid-area">
+                                                    <div class="bid-amount">
+                                                        <div class="icon">
+                                                            <i class="flaticon-auction"></i>
+                                                        </div>
+                                                        <div class="amount-content">
+                                                            <div class="current">قیمت</div>
+                                                            <div class="amount">@order.OrderedPrice.ToString("N0") تومان</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bid-amount">
+                                                        <div class="icon">
+                                                            <i class="flaticon-money"></i>
+                                                        </div>
+                                                        <div class="amount-content">
+                                                            <div class="current">کمترین قیمت پیشنهاد شده</div>
+
+                                                            @if (@order.Suggestions.Count == 0)
+                                                            {
+                                                                <p>پیشنهادی ثبت نشده است</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="amount">@order.Suggestions.MinBy(x => x.SuggestedPrice)!.SuggestedPrice.ToString("N0") تومان</div>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="countdown-area">
+                                                    <div class="countdown p-1">
+                                                        <p>زمان اجرا - @order.DoAt.ToPersianString("yyyy/MM/dd")</p>
+                                                    </div>
+                                                    <span class="total-bids">@order.SuggestionsCount پیشنهاد</span>
+                                                </div>
+                                                <hr />
+                                                <h6 class="title">
+                                                    <a>تصاویر سفارش</a>
+                                                </h6>
+                                                <div class="pb-2 text-center">
+                                                    @if (order.ImagesPath is not null && order.ImagesPath.Any())
+                                                    {
+                                                        @foreach (var image in order.ImagesPath)
+                                                        {
+                                                            <a target="_blank" href="@image">
+                                                                <img width="100px;" height="100px;" src="@image" />
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>عکسی برای این سفارش ثبت نشده است</p>
+                                                    }
+                                                </div>
+                                                <hr />
+
+                                                <div class="item">
+                                                    <h5 class="title">پیشنهادات</h5>
+                                                    @if (order.SuggestionsCount > 0)
+                                                    {
+                                                        <div class="history-table-area">
+                                                            <table class="history-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>پیشنهاد دهنده</th>
+                                                                        <th>تاریخ اجرا</th>
+                                                                        <th>قیمت</th>
+                                                                        <th>وضعیت</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var suggestion in @order.Suggestions)
+                                                                    {
+                                                                        <tr>
+                                                                            <td data-history="bidder">
+                                                                                <div class="user-info" asp-for="">
+                                                                                    <div class="thumb">
+                                                                                        @if (string.IsNullOrEmpty(suggestion.ImageProfilePath))
+                                                                                        {
+                                                                                            <a asp-page="ExpertBiography" asp-route-id="@suggestion.ExpertId">
+                                                                                                <img src="/AdminTemplate/images/user/placeholder.jpg" alt="history">
+                                                                                            </a>
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <a asp-page="ExpertBiography" asp-route-id="@suggestion.ExpertId">
+                                                                                                <img src="@suggestion.ImageProfilePath" alt="history">
+                                                                                            </a>
+
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div class="content">
+                                                                                        @suggestion.ExpertName
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td data-history="date">@suggestion.DoAt.ToPersianString("dddd, dd MMMM,yyyy")</td>
+                                                                            <td>@suggestion.SuggestedPrice.ToString("N0") تومان</td>
+                                                                            @if (suggestion.IsAccepted)
+                                                                            {
+                                                                                <td><a class="btn btn-success" onclick="return confirm('آیا میخواهید پرداخت کنید؟')" asp-page-handler="PayForSuggestion" asp-route-orderId="@suggestion.OrderId" asp-route-expertId="@suggestion.ExpertId">پرداخت</a></td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                if (!order.HasAcceptedSuggestion)
+                                                                                {
+                                                                                    <td><a onclick="return confirm('آیا از انتخاب این پیشنهاد اطمینان دارید؟')" asp-page-handler="SubmitSuggestion" asp-route-suggestionId="@suggestion.Id" asp-route-orderId="@suggestion.OrderId" class="btn btn-success">تایید</a></td>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <td>
+                                                                                        <p class="text-center alert-danger"> رد شده</p>
+                                                                                    </td>
+                                                                                }
+
+                                                                            }
+
+
+                                                                        </tr>
+
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="pb-2 text-center">هنوز پیشنهادی برای سفارش شما ثبت نشده</p>
+                                                    }
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else{
+                                <h4>شما هنوز سفارشی ثبت نکرده اید</h4>
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show " id="finished">
+                        <div class="row mb-30-none justify-content-center">
+                            @if (Model.FinishedOrdes is not null)
+                            {
+                                @foreach (var order in Model.FinishedOrdes)
+                                {
+                                    <div class="col-sm-10 col-md-12">
+                                        <div class="auction-item-2">
+                                            <div class="auction-content">
+                                                <h6 class="title">
+                                                    <a>@order.TaskName</a>
+                                                </h6>
+                                                <div class="bid-area">
+                                                    <div class="bid-amount">
+                                                        <div class="icon">
+                                                            <i class="flaticon-auction"></i>
+                                                        </div>
+                                                        <div class="amount-content">
+                                                            <div class="current">قیمت</div>
+                                                            <div class="amount">@order.OrderedPrice.ToString("N0") تومان</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bid-amount">
+                                                        <div class="icon">
+                                                            <i class="flaticon-money"></i>
+                                                        </div>
+                                                        <div class="amount-content">
+                                                            <div class="current">کمترین قیمت پیشنهاد شده</div>
+
+                                                            @if (@order.Suggestions.Count == 0)
+                                                            {
+                                                                <p>پیشنهادی ثبت نشده است</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="amount">@order.Suggestions.MinBy(x => x.SuggestedPrice)!.SuggestedPrice.ToString("N0") تومان</div>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="countdown-area">
+                                                    <div class="countdown p-1">
+                                                        <p>زمان اجرا - @order.DoAt.ToPersianString("yyyy/MM/dd")</p>
+                                                    </div>
+                                                    <span class="total-bids">@order.SuggestionsCount پیشنهاد</span>
+                                                </div>
+                                                <hr />
+                                                <h6 class="title">
+                                                    <a>تصاویر سفارش</a>
+                                                </h6>
+                                                <div class="pb-2 text-center">
+                                                    @if (order.ImagesPath is not null && order.ImagesPath.Any())
+                                                    {
+                                                        @foreach (var image in order.ImagesPath)
+                                                        {
+                                                            <a target="_blank" href="@image">
+                                                                <img width="100px" height="100px" src="@image" />
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>عکسی برای این سفارش ثبت نشده است</p>
+                                                    }
+                                                </div>
+                                                <hr />
+
+                                                <div class="item">
+                                                    <h5 class="title">پیشنهاد تایید شده : </h5>
+                                                    <div class="history-table-area">
+                                                        <table class="history-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>پیشنهاد دهنده</th>
+                                                                    <th>تاریخ اجرا</th>
+                                                                    <th>قیمت</th>
+                                                                    <th>وضعیت</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                @{
+                                                                    Model.ExpertId = @order.Suggestions.First(x => x.IsAccepted).ExpertId;
+                                                                }
+                                                                
+
+                                                                @foreach (var suggestion in order.Suggestions.Where(x => x.IsAccepted))
+                                                                {
+                                                                    
+                                                                    <tr>
+                                                                        <td data-history="bidder">
+                                                                            <div class="user-info" asp-for="">
+                                                                                <div class="thumb">
+                                                                                    @if (string.IsNullOrEmpty(suggestion.ImageProfilePath))
+                                                                                    {
+                                                                                        <a asp-page="ExpertBiography" asp-route-id="@suggestion.ExpertId">
+                                                                                            <img src="/AdminTemplate/images/user/placeholder.jpg" alt="history">
+                                                                                        </a>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <a asp-page="ExpertBiography" asp-route-id="@suggestion.ExpertId">
+                                                                                            <img src="@suggestion.ImageProfilePath" alt="history">
+                                                                                        </a>
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="content">
+                                                                                    @suggestion.ExpertName
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td data-history="date">@suggestion.DoAt.ToPersianString("dddd, dd MMMM,yyyy")</td>
+                                                                        <td>@suggestion.SuggestedPrice.ToString("N0") تومان</td>
+                                                                        <td>پرداخت شده</td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <form method="post" style="display: flex; flex-direction: column; align-items: center; gap: 10px;" class="mt-10px">
+                                                    <label class="mt-20" for="comment-@order.Id">نظر خود را درباره نحوه عملکرد متخصص بنویسید : </label>
+                                                    <textarea id="comment-@order.Id" name="Comment" placeholder="نظر خود را وارد کنید..."
+                                                              style="width: contain; max-width: 500px; height: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+                                                    <div style="display: flex; flex-direction: row-reverse; justify-content: center; gap: 5px;">
+                                                        <input type="hidden" id="ratingInput-@order.Id" name="Rating">
+                                                        @for (int i = 5; i >= 1; i--)
+                                                        {
+                                                            <input type="radio" id="star-@i-rating-@order.Id" name="Rating-@order.Id" value="@i" style="display: none;" onchange="updateRating(@i, '@order.Id')">
+                                                            <label for="star-@i-rating-@order.Id" style="font-size: 24px; color: #ccc; cursor: pointer;">★</label>
+                                                        }
+                                                    </div>
+                                                    <input type="hidden" value="@Model.ExpertId" asp-for="@Model.ExpertId" />
+                                                    <button type="submit" style="padding: 8px 16px; border: none; background-color: mediumslateblue; color: white; border-radius: 5px; cursor: pointer;">ارسال نظر</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <h4>شما هنوز سفارشی را تکمیل نکرده اید</h4>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= Dashboard Section Ends Here =============-->
+
+<script>
+    function updateRating(value, orderId) {
+        let hiddenInput = document.getElementById(`ratingInput-${orderId}`);
+        hiddenInput.value = value;
+
+        let stars = document.querySelectorAll(`label[for^='star'][for$='-${orderId}']`);
+        stars.forEach(star => {
+            let starValue = parseInt(star.getAttribute('for').split('-')[1]); // Extract the rating number
+            if (starValue <= value) {
+                star.style.color = "gold";
+            } else {
+                star.style.color = "#ccc";
+            }
+        });
+    }
+</script>
+

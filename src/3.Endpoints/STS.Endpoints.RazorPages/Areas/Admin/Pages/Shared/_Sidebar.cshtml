@@ -1,0 +1,73 @@
+﻿@{
+    var currentPath = Context.Request.Path.Value ?? ""; 
+}
+
+<div id="sidebar">
+    <div class="side-menu-container">
+        <ul class="metismenu" id="side-menu">
+            <li class="open active conditional-bg">
+                <a href="#" class="dropdown-toggle">
+                    <i class="icon-home"></i>
+                    <span>استارسرویس</span>
+                </a>
+                <ul>
+                    <li class="@(currentPath.Contains("/Users/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/Users/Index">
+                            <i class="icon-home"></i>
+                            <span>کاربران</span>
+                        </a>
+                    </li>
+                    <li class="@(currentPath.Contains("/MainCategories/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/MainCategories/Index">
+                            <i class="icon-home"></i>
+                            <span>دسته بندی های اصلی </span>
+                        </a>
+                    </li>
+                    <li class="@(currentPath.Contains("/SubCategories/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/SubCategories/Index">
+                            <i class="icon-home"></i>
+                            <span>زیر دسته بندی ها </span>
+                        </a>
+                    </li>
+                    <li class="@(currentPath.Contains("/TaskItems/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/TaskItems/Index">
+                            <i class="icon-home"></i>
+                            <span>سرویس ها</span>
+                        </a>
+                    </li>
+                    <li class="@(currentPath.Contains("/Orders/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/Orders/Index">
+                            <i class="icon-home"></i>
+                            <span>سفارش ها</span>
+                        </a>
+                    </li>
+                    <li class="@(currentPath.Contains("/FeedBacks/Index") ? "active-menu" : "")">
+                        <a asp-area="Admin" asp-page="/FeedBacks/Index">
+                            <i class="icon-home"></i>
+                            <span>نظرات</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul><!-- /#side-menu -->
+    </div><!-- /.side-menu-container -->
+</div><!-- /#sidebar -->
+
+<style>
+    /* Default Sidebar Background */
+    #sidebar {
+        background-color: #2c3e50;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Active Menu Item Style */
+    .active-menu {
+        background-color: #007bff; /* Change this to your desired highlight color */
+        color: white;
+    }
+
+        /* Change Sidebar Color when an item is active */
+        .active-menu ~ #sidebar {
+            background-color: #1e2a38 !important;
+        }
+</style>

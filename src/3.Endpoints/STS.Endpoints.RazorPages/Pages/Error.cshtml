@@ -1,0 +1,19 @@
+﻿@page
+@model ErrorModel
+@{
+    Layout = "_ErrorLayout";
+    ViewData["Title"] = "خطایی رخ داده است.";
+}
+
+<!--============= Error Section Starts Here =============-->
+<div class="error-section padding-top:100px padding-bottom bg_img" data-background="/UserTemplate/images/error-bg.png">
+    <div class="container">
+        <div class="error-wrapper">
+            <div class="error-thumb">
+                <img src="/UserTemplate/images/error.png" alt="error">
+            </div>
+            <h4 class="title">بازگشت به <a asp-page="Index">صفحه نخست</a></h4>
+        </div>
+    </div>
+</div>
+<!--============= Error Section Ends Here =============-->

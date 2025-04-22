@@ -1,0 +1,212 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using STS.Domain.Core.Contracts.AppService
+@inject IMainCategoryAppService MainCategoryAppService
+@{
+    var categories = await @MainCategoryAppService.GetAll(default);
+    TempData["Show-pencil"] = false;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from sbidu.setinco.com/index-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 24 Feb 2025 19:21:25 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="/UserTemplate/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/UserTemplate/css/all.min.css">
+    <link rel="stylesheet" href="/UserTemplate/css/animate.css">
+    <link rel="stylesheet" href="/UserTemplate/css/nice-select.css">
+    <link rel="stylesheet" href="/UserTemplate/css/owl.min.css">
+    <link rel="stylesheet" href="/UserTemplate/css/magnific-popup.css">
+    <link rel="stylesheet" href="/UserTemplate/css/flaticon.css">
+    <link rel="stylesheet" href="/UserTemplate/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/UserTemplate/css/main.css">
+    <link rel="stylesheet" href="/UserTemplate/JalaliCalender/jalalidatepicker.min_2.css">
+    <link rel="stylesheet" href="/UserTemplate/select2/dist/css/select2.min.css" />
+
+    <link rel="shortcut icon" href="/UserTemplate/images/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <!--============= ScrollToTop Section Starts Here =============-->
+    <div class="overlayer" id="overlayer">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+    </div>
+    <a href="#0" class="scrollToTop"><i class="fas fa-angle-up"></i></a>
+    <div class="overlay"></div>
+    <!--============= ScrollToTop Section Ends Here =============-->
+    <!--============= Header Section Starts Here =============-->
+    <header>
+        <div class="header-bottom">
+            <div class="container">
+                <div class="header-wrapper">
+                    <div class="logo">
+                        @if (User.IsInRole("Expert"))
+                        {
+                            <a asp-page="/ExpertIndex">
+                                <img src="/UserTemplate/images/logo/logo.png" alt="logo">
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Index">
+                                <img src="/UserTemplate/images/logo/logo.png" alt="logo">
+                            </a>
+                        }
+                    </div>
+                    <ul class="menu ml-auto">
+                        <li>
+                            @if (User.IsInRole("Expert"))
+                            {
+                                <a asp-page="/ExpertIndex">خانه</a>
+                            }
+                            else
+                            {
+                                <a asp-page="/Index">خانه</a>
+                            }
+                        </li>
+                        <li>
+                            <a href="#0">دسته بندی ها</a>
+                            <ul class="submenu">
+                                @foreach (var category in categories.Data!)
+                                {
+                                    <li>
+                                        <a asp-page="/SubCategories" asp-route-id="@category.Id">@category.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                        <li>
+                            <partial name="_LoginPartial" />
+                        </li>
+                    </ul>
+                    <form asp-page="SearchResult" method="post" class="search-form white">
+                        <input name="keyword" type="text" placeholder="جستجوی سرویس">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <div class="search-bar d-md-none">
+                        <a href="#0"><i class="fas fa-search"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--============= Hero Section Ends Here =============-->
+    <!--============= Cart Section Ends Here =============-->
+    <!--============= Banner Section Starts Here =============-->
+    <section style="margin-bottom:50px;" class="banner-section bg_img" data-background="/UserTemplate/images/banner/banner-bg-1.png">
+        <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-6 col-xl-6">
+                    <div class="banner-content cl-white">
+                        <h5 class="cate">خوش آمدید به</h5>
+                        <h1 class="title">استارسرویس؛</h1>
+                        <p>
+                            جایی برای انتخاب بهترین متخصصین و تجربه‌ای متفاوت از خدمات در محل.
+                        </p>
+                        @if(!User.Identity.IsAuthenticated)
+                        {
+                            <a asp-area="Account" asp-page="Register" class="custom-button yellow btn-large">شروع کنید</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner-shape d-none d-lg-block">
+            <img src="/UserTemplate/css/img/banner-shape.png" alt="css">
+        </div>
+    </section>
+    <!--============= Banner Section Ends Here =============-->
+    <!--============= RenderBody =============-->
+    @RenderBody()
+    <!--============= RenderBody =============-->
+    <!--============= Footer Section Starts Here =============-->
+    <footer class="bg_img padding-top oh" data-background="/UserTemplate/images/footer/footer-bg.jpg">
+        <div class="footer-top-shape">
+            <img src="/UserTemplate/css/img/footer-top-shape.png" alt="css">
+        </div>
+        <div class="anime-wrapper">
+            <div class="anime-1 plus-anime">
+                <img src="/UserTemplate/images/footer/p1.png" alt="footer">
+            </div>
+            <div class="anime-2 plus-anime">
+                <img src="/UserTemplate/images/footer/p2.png" alt="footer">
+            </div>
+            <div class="anime-3 plus-anime">
+                <img src="/UserTemplate/images/footer/p3.png" alt="footer">
+            </div>
+            <div class="anime-5 zigzag">
+                <img src="/UserTemplate/images/footer/c2.png" alt="footer">
+            </div>
+            <div class="anime-6 zigzag">
+                <img src="/UserTemplate/images/footer/c3.png" alt="footer">
+            </div>
+            <div class="anime-7 zigzag">
+                <img src="/UserTemplate/images/footer/c4.png" alt="footer">
+            </div>
+        </div>
+        <div class="footer-top padding-bottom padding-top">
+            <div class="container">
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="copyright-area">
+                    <div class="footer-bottom-wrapper">
+                        <div class="logo">
+                            <a href="index.html"><img src="/UserTemplate/images/logo/footer-logo.png" alt="logo"></a>
+                        </div>
+                        <ul class="gateway-area">
+                            <li>
+                                <a href="#0"><img src="/UserTemplate/images/footer/paypal.png" alt="footer"></a>
+                            </li>
+                            <li>
+                                <a href="#0"><img src="/UserTemplate/images/footer/visa.png" alt="footer"></a>
+                            </li>
+                            <li>
+                                <a href="#0"><img src="/UserTemplate/images/footer/discover.png" alt="footer"></a>
+                            </li>
+                            <li>
+                                <a href="#0"><img src="/UserTemplate/images/footer/mastercard.png" alt="footer"></a>
+                            </li>
+                        </ul>
+                        <div class="copyright"><p>&copy; 2025 | <a href="#0">StarService</a></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--============= Footer Section Ends Here =============-->
+    <!--============= Footer Section Ends Here =============-->
+    <script src="/UserTemplate/js/jquery-3.3.1.min.js"></script>
+    <script src="/UserTemplate/js/modernizr-3.6.0.min.js"></script>
+    <script src="/UserTemplate/js/plugins.js"></script>
+    <script src="/UserTemplate/js/bootstrap.min.js"></script>
+    <script src="/UserTemplate/js/isotope.pkgd.min.js"></script>
+    <script src="/UserTemplate/js/wow.min.js"></script>
+    <script src="/UserTemplate/js/waypoints.js"></script>
+    <script src="/UserTemplate/js/nice-select.js"></script>
+    <script src="/UserTemplate/js/counterup.min.js"></script>
+    <script src="/UserTemplate/js/owl.min.js"></script>
+    <script src="/UserTemplate/js/magnific-popup.min.js"></script>
+    <script src="/UserTemplate/js/yscountdown.min.js"></script>
+    <script src="/UserTemplate/js/jquery-ui.min.js"></script>
+    <script src="/UserTemplate/js/main.js"></script>
+
+    <script src="~/UserTemplate/select2/dist/js/select2.full.min.js"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+
+</html>

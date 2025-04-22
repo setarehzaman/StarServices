@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using STS.Domain.Core.Entities.User
+@inject SignInManager<ApplicationUser> SignInManager
+
+<li>
+    <a href="#0">حساب من</a>
+    <ul class="submenu">
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <li>
+                <a asp-area="Account" asp-page="/Register">ثبت نام</a>
+            </li>
+            <li>
+                <a asp-area="Account" asp-page="/Login">ورود</a>
+            </li>
+        }
+        else
+        {
+            if(User.IsInRole("Admin"))
+            {
+                <li>
+                    <a asp-area="Admin" asp-page="/Index" title="پروفایل">@User.Identity?.Name</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-area="Account" asp-page="/ProfilePages/Profile" title="پروفایل">@User.Identity?.Name</a>
+                </li>
+            }
+            <li>
+                <a asp-area="Account" asp-page="/Logout">خروج</a>
+            </li>
+        }
+
+
+    </ul>
+</li>

@@ -1,0 +1,67 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.MainCategories.IndexModel
+@{
+    ViewData["Title"] = "استارسرویس > مدیریت دسته بندی ها > لیست دسته بندی های اصلی";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    دسته بندی ها
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+                <a class="btn btn-success" asp-page="Create">
+                    <i class="icon-plus"></i>
+                    افزودن
+                    <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                </a>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="data-table2">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>عکس دسته بندی</th>
+                                <th>نام دسته بندی</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in @Model.MainCategories)
+                            {
+
+                                <tr>
+                                    <td>@category.Id</td>
+                                    <td>
+                                        <a asp-page="Details" asp-route-Id="@category.Id">
+                                            <img style="border-radius : 50%" src="@category.ImgPath" width="80" height="80" />
+
+                                         </a>
+                                    </td>
+                                    <td>@category.Name</td>
+                                    <td>
+                                        <a asp-page="Update" asp-route-Id="@category.Id" class="btn btn-info">ویرایش</a>
+                                        <a onclick="return confirm('آیا از حذف این دسته یندی اطمینان دارید؟')" asp-page-handler="Delete" asp-route-Id="@category.Id" class="btn btn-danger">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->
+@section Scripts
+{
+    <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/AdminTemplate/js/pages/datatable.js"></script>
+}

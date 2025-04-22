@@ -1,0 +1,113 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using STS.Domain.Core.Contracts.AppService
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.Users.UpdateModel;
+@inject IBaseDataAppService BaseData;
+@{
+    ViewData["Title"] = "استارسرویس > مدیریت کاربران > ویرایش کاربر";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    کاربران
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+            </div>
+            <div class="row">
+                <form enctype="multipart/form-data" role="form" method="post">
+                    <input type="hidden" asp-for="UserModel.Id">
+                    <input type="hidden" asp-for="UserModel.RoleId">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.FirstName" class="form-control" type="text" placeholder="نام" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.LastName" class="form-control" type="text" placeholder="نام خانوادگی">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.PhoneNumber" class="form-control" type="text" placeholder="شماره موبایل" required/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.Email" class="form-control" type="email" placeholder="آدرس ایمیل" required/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.Address" class="form-control" type="text" placeholder="آدرس"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.UserName" class="form-control" type="text" placeholder="نام کاربری"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input asp-for="UserModel.Password" class="form-control" type="password" placeholder="کلمه عبور"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select asp-for="UserModel.CityId" class="form-select">
+                                    @foreach (var city in @Model.Cities)
+                                    {
+                                        <option value="@city.Id">@city.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group relative">
+                            <input asp-for="UserModel.ProfileImage" type="file" class="form-control"> <label>آپلود عکس</label>
+                            <div class="input-group round">
+                                <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-success">
+                                        <i class="icon-picture"></i>
+                                        آپلود عکس
+                                        <div class="paper-ripple">
+                                            <div class="paper-ripple__background"></div>
+                                            <div class="paper-ripple__waves"></div></div>
+                                    </button>
+                                </span>
+                            </div><!-- /.input-group -->
+                            <div class="help-block"></div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">
+                            <i class="icon-check"></i>
+                            ذخیره
+                        </button>
+                        <a asp-page="Index" class="btn btn-warning">
+                            بازگشت
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->

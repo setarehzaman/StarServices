@@ -1,0 +1,273 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Pages.SubmitSuggestionModel
+@{
+}
+<!--============= Product Details Section Starts Here =============-->
+<section class="product-details padding-bottom mt-lg--440" style="padding-top:150px;">
+	<div class="container">
+		@if (Model.Order.ImagesPath is not null && Model.Order.ImagesPath.Any())
+		{
+			<div class="product-details-slider-top-wrapper">
+				<div class="product-details-slider owl-theme owl-carousel" id="sync1">
+					@foreach (var image in Model.Order.ImagesPath)
+					{
+						<div style="display: flex; justify-content: center; align-items: center; width: 80%; height: auto; margin: auto;">
+							<img src="@image"
+								 style="width: 80%; height: auto; object-fit: contain; border-radius: 15px;">
+						</div>
+					}
+				</div>
+			</div>
+			<div class="product-details-slider-wrapper">
+				<div class="product-bottom-slider owl-theme owl-carousel" id="sync2">
+					@foreach (var image in Model.Order.ImagesPath)
+					{
+						<div class="slide-bottom-item">
+							<div class="slide-inner">
+								<img src="@image" alt="product">
+							</div>
+						</div>
+					}
+				</div>
+				<span class="det-prev det-nav">
+					<i class="fas fa-angle-right"></i>
+				</span>
+				<span class="det-next det-nav active">
+					<i class="fas fa-angle-left"></i>
+				</span>
+			</div>
+		}
+		else
+		{
+			<p>عکسی برای این سفارش ثبت نشده است</p>
+		}
+
+		<div class="row mt-40-60-80">
+			<div class="col-lg-8">
+				<div class="product-details-content">
+					<div class="product-details-header">
+						<h2 class="title">@Model.Order.TaskName</h2>
+					</div>
+
+
+					<ul class="price-table mb-30">
+						<li class="header">
+							<h5 class="current">قیمت پیشنهادی مشتری : </h5>
+							<h3 class="price">@Model.Order.OrderedPrice.ToString("N0") تومان</h3>
+						</li>
+						<li>
+							<span class="details">توضیحات : </span>
+							<p>@Model.Order.Description</p>
+						</li>
+					</ul>
+					@if (!Model.ShowForm)
+					{
+						<div class="product-bid-area">
+							<form method="post" class="product-bid-form">
+								<input type="hidden" asp-for="Input.OrderId" value="@Model.Order.Id" />
+								<label><i class="far fa-money-bill-transfer"></i></label>
+								<input asp-for="Input.SuggestedPrice" type="text" placeholder="مبلغ پیشنهاد خود را وارد کنید">
+								<div class="form-group mb-30">
+									<label><i class="far fa-clock"></i></label>
+									<input asp-for="Input.ShamsiDoAt" data-jdp-only-date data-jdp type="text" placeholder="تاریخ انجام">
+									<button type="submit" class="custom-button">پیشنهاد دهید</button>
+								</div>
+							</form>
+						</div>
+					}
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="product-sidebar-area">
+					<div class="product-single-sidebar mb-3">
+						<h6 class="title">تاریخ پیشنهادی مشتری : </h6>
+						<div class="countdown">
+							<p class="mt-20">@Model.Order.DoAt.ToPersianString("yyyy/MM/dd")</p>
+						</div>
+						<div class="side-counter-area">
+							<div class="side-counter-item">
+								<div class="thumb">
+									<img src="/UserTemplate/images/product/icon1.png" alt="product">
+								</div>
+								<div class="content">
+									@if (Model.Order.SuggestionsCount == 0)
+									{
+										<h6 class="count-title">پیشنهادی ثبت نشده است</h6>
+									}
+									else
+									{
+										<h3 class="count-title"><span class="counter">@Model.Order.SuggestionsCount</span></h3>
+									}
+									<p>کل پیشنهاد ها</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="product-tab-menu-area mb-40-60 mt-70-100">
+		<div class="container">
+			<ul class="product-tab-menu nav nav-tabs">
+				<li>
+					<a href="#details" class="active" data-toggle="tab">
+						<div class="thumb">
+							<img src="/UserTemplate/images/product/tab1.png" alt="product">
+						</div>
+						<div class="content">شرح</div>
+					</a>
+				</li>
+				<li>
+					<a href="#history" data-toggle="tab">
+						<div class="thumb">
+							<img src="/UserTemplate/images/product/tab3.png" alt="product">
+						</div>
+						<div class="content">پیشنهاد های دیگر</div>
+					</a>
+				</li>
+				<li>
+					<a href="#questions" data-toggle="tab">
+						<div class="thumb">
+							<img src="/UserTemplate/images/product/tab4.png" alt="product">
+						</div>
+						<div class="content"> سوالات متدوال </div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container">
+		<div class="tab-content">
+			<div class="tab-pane fade show active" id="details">
+				<div class="tab-details-content">
+					<div class="header-area">
+						<div class="item">
+							<h5 class="subtitle">اطلاع قانونی</h5>
+							<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد.</p>
+							<p>وضعیت: آزمایش نشده - فروخته شده همانطور که هست</p>
+							<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد. </p>
+						</div>
+					</div>
+					<div class="item">
+						<h5 class="subtitle">پیشنهادات</h5>
+						<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد.</p>
+					</div>
+					<div class="item">
+						<h5 class="subtitle">مسئولیت خریدار</h5>
+						<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد.</p>
+						<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد..</p>
+						<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد..</p>
+						<p>وسایل نقلیه و تجهیزات اغلب ساییدگی و پارگی قابل توجهی دارند. دارایی ها به صورت  بدون ضمانت ، صریح یا ضمنی به فروش می رسند ، و ما به شدت توصیه می کنیم پیش از مناقصه ، پیش نمایش آنها را انجام دهید. دوره پیش نمایش تنها فرصت برای بازرسی دارایی برای بررسی شرایط و مناسب بودن است. هیچگونه بازپرداخت ، تعدیل یا بازگشتی پذیرفته نخواهد شد.</p>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade show" id="history">
+				<div class="history-wrapper">
+					<div class="item">
+						<h5 class="title">پیشنهادات</h5>
+						@if (Model.Order.Suggestions.Count > 0)
+						{
+							<div class="history-table-area">
+								<table class="history-table">
+									<thead>
+										<tr>
+											<th>پیشنهاد دهنده</th>
+											<th>تاریخ اجرا</th>
+											<th>قیمت</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (var suggestion in Model.Order.Suggestions)
+										{
+											<tr>
+												<td data-history="bidder">
+													<div class="user-info" asp-for="">
+														<div class="thumb">
+															@if (string.IsNullOrEmpty(suggestion.ImageProfilePath))
+															{
+                                                                <a asp-area="Account" asp-page="ProfilePages/ExpertBiography" asp-route-id="@suggestion.ExpertId">
+																	<img src="/AdminTemplate/images/user/placeholder.jpg" alt="history">
+																</a>
+
+															}
+															else
+															{
+																<a asp-area="Account" asp-page="ProfilePages/ExpertBiography" asp-route-id="@suggestion.ExpertId">
+																	<img src="@suggestion.ImageProfilePath" alt="history">
+																</a>
+
+															}
+														</div>
+														<div class="content">
+															@suggestion.ExpertName
+														</div>
+													</div>
+												</td>
+												<td data-history="date">@suggestion.DoAt.ToPersianString("dddd, dd MMMM,yyyy")</td>
+												<td>@suggestion.SuggestedPrice.ToString("N0") تومان</td>
+											</tr>
+
+										}
+									</tbody>
+								</table>
+
+							</div>
+
+						}
+						else
+						{
+							<p class="pb-2 text-center">هنوز پیشنهادی برای سفارش شما ثبت نشده</p>
+						}
+
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade show" id="questions">
+				<h5 class="faq-head-title">سوالات متداول</h5>
+				<div class="faq-wrapper">
+					<div class="faq-item">
+						<div class="faq-title">
+							<img src="/UserTemplate/css/img/faq.png" alt="css"><span class="title">چگونه پیشنهادات را شروع کنیم؟</span><span class="right-icon"></span>
+						</div>
+						<div class="faq-content">
+							<p>همه پیشنهاد دهندگان موفق می توانند با بررسی "ستین" پیشنهاد برنده خود را تأیید کنند. علاوه بر این ، کلیه پیشنهاد دهندگان موفق پس از بسته شدن حراج ، ایمیلی به آنها اعلام می کنند که پیشنهاد برنده شدن آنها را اعلام می کند.</p>
+						</div>
+					</div>
+					<div class="faq-item open active">
+						<div class="faq-title">
+							<img src="/UserTemplate/css/img/faq.png" alt="css"><span class="title">چگونه می توانم بفهمم که پیشنهاد من موفق بوده است؟</span><span class="right-icon"></span>
+						</div>
+						<div class="faq-content">
+							<p>همه پیشنهاد دهندگان موفق می توانند با بررسی "ستین" پیشنهاد برنده خود را تأیید کنند. علاوه بر این ، کلیه پیشنهاد دهندگان موفق پس از بسته شدن حراج ، ایمیلی به آنها اعلام می کنند که پیشنهاد برنده شدن آنها را اعلام می کند.</p>
+						</div>
+					</div>
+					<div class="faq-item">
+						<div class="faq-title">
+							<img src="/UserTemplate/css/img/faq.png" alt="css"><span class="title">چه اتفاقی می افتد اگر من اشتباه پیشنهاد بدهم؟</span><span class="right-icon"></span>
+						</div>
+						<div class="faq-content">
+							<p>همه پیشنهاد دهندگان موفق می توانند با بررسی "ستین" پیشنهاد برنده خود را تأیید کنند. علاوه بر این ، کلیه پیشنهاد دهندگان موفق پس از بسته شدن حراج ، ایمیلی به آنها اعلام می کنند که پیشنهاد برنده شدن آنها را اعلام می کند.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</section>
+<!--============= Product Details Section Ends Here =============-->
+@section Scripts
+{
+
+	<script type="text/javascript" src="UserTemplate/JalaliCalender/jalalidatepicker.min.js"></script>
+
+	<script>
+		jalaliDatepicker.startWatch({
+			minDate: "attr",
+			maxDate: "attr",
+			time:true
+		});
+	</script>
+}

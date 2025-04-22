@@ -1,0 +1,75 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.ExpertFeedBacksModel
+@{
+    Layout = "../Shared/_Layout";
+    ViewData["Title"] = "کامنت های متخصص";
+}
+
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+
+            <partial name="_ProfileSideBar" />
+
+            <div style="padding:30px;width:650px;">
+                <h5 class="p-1 title">کامنت های شما</h5>
+                @if (@Model.FeedBacks.Count() > 0)
+                {
+                    <div class="history-table-area">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>کامنت کننده</th>
+                                    <th>امتیاز</th>
+                                    <th>کامنت</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var feedBack in @Model.FeedBacks)
+                                {
+                                    <tr>
+                                        <td data-history="bidder">
+                                            <div class="user-info" asp-for="">
+                                                <div class="thumb">
+                                                    @if (string.IsNullOrEmpty(feedBack.ClientImgPath))
+                                                    {
+                                                        <img src="/AdminTemplate/images/user/placeholder.jpg" alt="history">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="@feedBack.ClientImgPath" alt="history">
+                                                    }
+                                                </div>
+                                                <div class="content">
+                                                    @feedBack.ClientName
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= feedBack.Rating)
+                                                {
+                                                    <i class="fas fa-star text-warning"></i> @* Filled Star *@
+                                                }
+                                                else
+                                                {
+                                                    <i class="far fa-star text-warning"></i> @* Empty Star *@
+                                                }
+                                            }
+                                        </td>
+                                        <td>@feedBack.Comment</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="pb-2 text-center">هنوز نظری برای شما ثبت نشده است.</p>
+                }
+            </div>
+        </div>
+    </div>
+</section>

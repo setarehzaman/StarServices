@@ -1,0 +1,46 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.LoginModel
+@{
+    Layout = "../Shared/_Layout";
+    ViewData["Title"] = "ورود کاربر";
+
+}
+
+<!--============= Account Section Starts Here =============-->
+<section style="padding-top:100px;" class="account-section padding-bottom">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440">
+            <div class="left-side">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                <div class="section-header">
+                    <h2 class="title">سلام</h2>
+                    <p>وارد حساب کاربری خود شوید</p>
+                </div>
+
+                <form method="post" class="login-form">
+                    <div class="form-group mb-30">
+                        <label for="login-email"><i class="far fa-envelope"></i></label>
+                        <input asp-for="Input.Email" type="email" id="login-email" placeholder="آدرس ایمیل">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-pass"><i class="fas fa-lock"></i></label>
+                        <input asp-for="Input.Password" type="password" id="login-pass" placeholder="کلمه عبور">
+                        <span class="pass-type"><i class="fas fa-eye"></i></span>
+                    </div>
+                    <div class="form-group mb-0">
+                        <button type="submit" class="custom-button">ورود</button>
+                    </div>
+                </form>
+            </div>
+            <div class="right-side cl-white">
+                <div class="section-header mb-0">
+                    <h3 class="title mt-0">حساب کاربری</h3>
+                    <p>ثبت نام کنید و حساب خود را ایجاد کنید</p>
+                    <a asp-page="Register" class="custom-button transparent">ثبت نام</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= Account Section Ends Here =============-->

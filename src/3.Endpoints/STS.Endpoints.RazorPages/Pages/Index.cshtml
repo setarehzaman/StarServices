@@ -1,0 +1,35 @@
+﻿@page
+@using STS.Domain.Core.Contracts.AppService
+@model STS.Endpoints.RazorPages.Pages.IndexModel;
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+@inject IMainCategoryAppService MainCategoryAppService
+@{
+    var categories = await @MainCategoryAppService.GetAll(default);
+}
+<div class="browse-slider-section mt--140">
+    <div class="container">
+        <div class="section-header-2 mb-4">
+            <div class="left">
+                <h6 style="color:white">سرویس های قابل ارائه</h6>
+            </div>
+            <div class="slider-nav">
+                <a href="#0" class="bro-prev"><i class="flaticon-right-arrow"></i></a>
+                <a href="#0" class="bro-next active"><i class="flaticon-left-arrow"></i></a>
+            </div>
+        </div>
+        <div class="m--15">
+            <div class="browse-slider owl-theme owl-carousel">
+                @foreach (var category in @categories.Data!)
+                {
+                    <a asp-page="SubCategories" asp-route-id="@category.Id" class="browse-item">
+                        <img src="@category.ImgPath" alt="auction">
+                        <span class="info">@category.Name</span>
+                    </a>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

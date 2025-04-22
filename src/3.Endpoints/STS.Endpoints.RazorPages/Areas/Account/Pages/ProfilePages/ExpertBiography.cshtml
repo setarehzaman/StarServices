@@ -1,0 +1,129 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Account.Pages.ProfilePages.ExpertBiographyModel
+@{
+    Layout = "../Shared/_Layout";
+    ViewData["Title"] = "پروفایل متخصص";
+}
+
+<!--============= About Section Starts Here =============-->
+<section style="padding-top:150px;" class="account-section">
+    <div class="container">
+        <div class="account-wrapper mt--100 mt-lg--440"
+             style="min-height: 350px; padding: 40px; border-radius: 10px">
+            <div class="row align-items-center">
+                <!-- Left: Profile Image -->
+                <div class="col-md-4 text-center d-flex flex-column align-items-center">
+                    <div class="profile-image">
+                        @if (string.IsNullOrEmpty(Model.Expert.ImageProfile))
+                        {
+                            <img src="/AdminTemplate/images/user/placeholder.jpg" class="img-fluid"
+                                 style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
+                        }
+                        else
+                        {
+                            <img src="@Model.Expert.ImageProfile" class="img-fluid">
+                        }
+                        <h4 class="mt-2">@Model.Expert.FirstName <br> @Model.Expert.LastName</h4>
+                    </div>
+                </div>
+
+                <!-- Right: User Information -->
+                <div class="col-md-8">
+                    <div class="profile-info">
+                        <p><strong style="font-weight: bold; font-size: 16px;">بیوگرافی :</strong> @Model.Expert.Biography</p>
+                        <p><strong style="font-weight: bold; font-size: 16px;">ایمیل :</strong> @Model.Expert.Email</p>
+                        <p><strong style="font-weight: bold; font-size: 16px;">شماره تماس :</strong> @Model.Expert.PhoneNumber</p>
+                        <p>
+                            <strong style="font-weight: bold; font-size: 16px;"> میانگین امتیازات از @Model.Expert.FeedbackCount نظر ثبت شده :</strong>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Model.Expert.Score)
+                                {
+                                    <i class="fas fa-star text-warning"></i> @* Filled Star *@
+                                }
+                                else
+                                {
+                                    <i class="far fa-star text-warning"></i> @* Empty Star *@
+                                }
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============= About Section Ends Here =============-->
+<!--============= Skill Section Starts Here =============-->
+<div class="counter-section">
+    <div class="container">
+        <div class="section-header">
+            <h4 class="title">مهارت ها و زمینه های فعالیتی این متخصص : </h4>
+        </div>
+        <div class="row justify-content-center mb-30-none">
+            @foreach (var skill in Model.Expert.Skills!)
+            {
+                <div class="col-sm-6 col-lg-3">
+                    <div class="counter-item">
+                        <h4 class="counter-header">@skill.Task.Name</h4>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--============= Skill Section Starts Here =============-->
+<!--============= FeedBack Section Starts Here =============-->
+<section class="client-section padding-top padding-bottom">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="title">نظرات مشتریان درباره نحوه عملکرد ایشان : </h2>
+        </div>
+        <div class="m--15">
+            @if (Model.FeedBacks.Count() == 0)
+            {
+                <p class="text-center">هنوز نظری برای این متخصص ثبت نشده است</p>
+            }
+            else
+            {
+                <div class="client-slider owl-theme owl-carousel">
+                    @foreach (var feedBack in Model.FeedBacks!)
+                    {
+                        <div class="client-item">
+                            <div class="client-content">
+                                <p>@feedBack.Comment</p>
+                            </div>
+                            <div class="client-author">
+                                <div style="width: 50px; height: 20px;border-radius: 50%;overflow: hidden;">
+                                    <a>
+                                        <img src="@feedBack.ClientImgPath" style="" alt="client">
+
+                                    </a>
+
+                                </div>
+                                <div class="content">
+                                    <h6 class="title">@feedBack.ClientName</h6>
+                                    <div class="ratings">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= feedBack.Rating)
+                                            {
+                                                <i class="fas fa-star text-warning"></i> @* Filled Star *@
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star text-warning"></i> @* Empty Star *@
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+    
+        </div>
+    </div>
+</section>
+<!--============= FeedBack Section Ends Here =============-->

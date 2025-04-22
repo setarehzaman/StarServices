@@ -1,0 +1,68 @@
+﻿@page
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.TaskItems.IndexModel
+@{
+    ViewData["Title"] = "استارسرویس > مدیریت سرویس ها > لیست سرویس ها";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    سرویس ها 
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+                <a class="btn btn-success" asp-page="Create">
+                    <i class="icon-plus"></i>
+                    افزودن
+                    <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                </a>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="data-table-TaskItems">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>عکس سرویس</th>
+                                <th>نام سرویس</th>
+                                <th>قیمت پایه</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var task in @Model.TaskItems)
+                            {
+                                <tr>
+                                    <td>@task.Id</td>
+                                    <td>
+                                        <a asp-page="Details" asp-route-Id="@task.Id">
+                                            <img style="border-radius : 50%" src="@task.ImgPath" width="80" height="80" />
+
+                                        </a>
+                                    </td>
+                                    <td>@task.Name</td>
+                                    <td>@task.BasePrice</td>
+                                    <td>
+                                        <a asp-page="Update" asp-route-Id="@task.Id" class="btn btn-info">ویرایش</a>
+                                        <a onclick="return confirm('آیا از حذف این دسته یندی اطمینان دارید؟')" asp-page-handler="Delete" asp-route-Id="@task.Id" class="btn btn-danger">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->
+@section Scripts
+{
+    <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/AdminTemplate/js/pages/datatable.js"></script>
+}

@@ -1,0 +1,99 @@
+﻿@page
+@using Framework
+@model STS.Endpoints.RazorPages.Areas.Admin.Pages.Users.IndexModel;
+@{
+    ViewData["Title"] = "استارسرویس > مدیریت کاربران > لیست کاربران";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+<div class="col-lg-12">
+    <div class="portlet box shadow">
+        <div class="portlet-heading">
+            <div class="portlet-title">
+                <h3 class="title">
+                    کاربران
+                </h3>
+            </div><!-- /.portlet-title -->
+        </div><!-- /.portlet-heading -->
+        <div class="portlet-body">
+            <div class="top-buttons-box mb-2">
+                <a class="btn btn-success" asp-page="Create">
+                    <i class="icon-plus"></i>
+                    افزودن
+                    <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                </a>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" id="data-table-ApplicationUser">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>پروفایل</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>شهر</th>
+                                <th>نام کاربری</th>
+                                <th>موبایل</th>
+                                <th>نقش</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in @Model.Users)
+                            {
+                                <tr>
+                                    <td>@user.Id</td>
+                                    @if (string.IsNullOrEmpty(user.ImgProfilePath))
+                                    {
+                                        <td>
+                                            <a asp-page="Details" asp-route-Id="@user.Id">
+                                                <img style="border-radius : 50%" src="~/AdminTemplate/images/user/placeholder.jpg" width="80" height="80" />
+
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <a asp-page="Details" asp-route-Id="@user.Id" >
+                                                <img style="border-radius : 50%" src="@user.ImgProfilePath" width="80" height="80" />
+
+                                            </a>
+                                        </td>
+                                    }
+                                    <td>@user.FirstName</td>
+                                    <td>@user.LastName</td>
+                                    <td>@user.City</td>
+                                    <td>@user.UserName</td>
+                                    <td>@user.PhoneNumber</td>
+                                    <td>@user.Role!.ToPersianRole()</td>
+                                    <td>@user.LockoutEnable.ToPersianStatusReverse()</td>
+                                    <td>
+                                        <a asp-page="Update" asp-route-Id="@user.Id" class="btn btn-info">ویرایش</a>
+                                        <a onclick="return confirm('آیا از حذف این کاربر اطمینان دارید؟')" asp-page-handler="Delete" asp-route-Id="@user.Id" class="btn btn-danger">حذف</a>
+                                        @if (user.LockoutEnable)
+                                        {
+                                            <a asp-page-handler="Accept" asp-route-Id="@user.Id" class="btn btn-success">فعال</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-page-handler="Reject" asp-route-Id="@user.Id" class="btn btn-danger">غیرفعال</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!-- /.portlet-body -->
+    </div><!-- /.portlet -->
+</div><!-- /.col-lg-12 -->
+@section Scripts
+{
+    <script src="~/AdminTemplate/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/AdminTemplate/js/pages/datatable.js"></script>
+}
